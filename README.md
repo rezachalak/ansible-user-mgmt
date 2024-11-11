@@ -10,6 +10,7 @@ Before submitting a pull request, make sure to test your changes:
 1. Run the ansible linter:
 
 Install prerequisits and run
+
     python3 -m pip install --upgrade pip
     pip3 install virtualenv
     virtualenv molecule
@@ -24,7 +25,7 @@ Install prerequisits and run
 
 2. Run molecule test on your local:
 
-.. code-block:: bash
+Run molecule 
 
     cd user_ssh_toolbox/roles/${ROLE_NAME}
     molecule test
