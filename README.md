@@ -4,7 +4,6 @@
 ## How to test your changes/prepare your test environment
 -------------------
 
-Before submitting a pull request, make sure to test your changes:
 
 1. Install prerequisits and run
 
