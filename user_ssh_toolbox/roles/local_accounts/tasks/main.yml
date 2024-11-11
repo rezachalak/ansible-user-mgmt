@@ -1,2 +1,34 @@
 ---
 # tasks file for local_accounts
+- name: Ensure local user accounts are created
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    shell: "{{ item.shell }}"
+    uid: "{{ item.userid }}"
+    expires: "{{ item.expiry_date }}"
+    home: "{{ item.home }}"
+    create_home: yes
+    groups: "{{ item.groups }}"
+  loop: "{{ local_users }}"
+  # check_mode: yes
+  when: local_users_customize_accounts
+
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "{{ item.home }}/.ssh"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0700'
+  loop: "{{ local_users }}"
+
+- name: Ensure authorized_keys for passwordless authentication
+  ansible.builtin.copy:
+    src: "{{ item.authorized_keys }}"
+    dest: "{{ item.home }}/.ssh/authorized_keys"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0600'
+  loop: "{{ local_users }}"
+  # check_mode: yes
+  when: local_users_passwordless_auth

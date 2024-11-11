@@ -1,2 +1,20 @@
 ---
 # defaults file for local_accounts
+local_users:
+  - name: local_adm
+    shell: /bin/bash
+    userid: 38000087
+    expiry_date: -1  # No expiry
+    home: /home/local_adm
+    groups: local_adm
+    authorized_keys: "{{ role_path }}/files/authorized_keys_local_adm"
+  - name: local_log
+    shell: /bin/sh
+    userid: 38000088
+    expiry_date: 1735689599  # End of 2024, use UNIX timestamp
+    home: /home/local_log
+    groups: local_log
+    authorized_keys: "{{ role_path }}/files/authorized_keys_local_log"
+
+local_users_customize_accounts: true
+local_users_passwordless_auth: true

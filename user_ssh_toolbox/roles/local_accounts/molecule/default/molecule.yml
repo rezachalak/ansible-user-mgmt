@@ -1,0 +1,27 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: centos
+    image: geerlingguy/docker-centos7-ansible:latest
+    command: {MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+  - name: ubuntu
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    command: {MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      collections_path: ${ANSIBLE_COLLECTIONS_PATH:-/usr/share/ansible/collections}
+verifier:
+  name: ansible

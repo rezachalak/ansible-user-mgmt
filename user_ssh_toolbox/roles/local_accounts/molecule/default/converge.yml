@@ -1,0 +1,28 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Register end of 2024 expiry
+      command: date -d '2024-12-31T23:59:59' '+%s'
+      register: expiry_r
+
+    - name: Test creating local accounts
+      ansible.builtin.include_role:
+        name: ansible-role-local-accounts
+      vars:
+        local_users:
+          - name: local_adm
+            shell: /bin/bash
+            userid: 38000087
+            expiry_date: -1  # No expiry intended
+            home: /home/local_adm
+            groups: ''
+            authorized_keys: "{{ role_path }}/files/authorized_keys_local_adm"
+          - name: local_log
+            shell: /bin/sh
+            userid: 38000088
+            expiry_date: "{{ expiry_r.stdout }}"  # Use the registered expiry date
+            home: /home/local_log
+            groups: ''
+            authorized_keys: "{{ role_path }}/files/authorized_keys_local_log"
