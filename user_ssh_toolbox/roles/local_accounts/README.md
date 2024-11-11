@@ -1,31 +1,57 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+The Local_accounts role help you to configure your own users with a single dictionary.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A set of machines with a root access!
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+A list of users with the following keys defined:
+
+local_users
+  - name
+    shell
+    userid
+    expiry_date
+    home
+    groups
+    authorized_keys
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies. All of the used dependencies are builtin. 
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+      - hosts: all
+        become: yes
+        tasks:
+          - name: Register end of 2024 expiry
+            command: date -d '2024-12-31T23:59:59' '+%s'
+            register: expiry_r
+
+          - name: Create local accounts
+            include_role:
+              name: rezachalak.user_ssh_toolbox.local_accounts
+            vars:
+              local_users:
+                - name: local_adm
+                  shell: /bin/bash
+                  userid: 38000087
+                  expiry_date: -1  # No expiry intended
+                  home: /home/local_adm
+                  groups: 'sudo'
+                  authorized_keys: '{{ playbook_dir }}/authorized_keys_local_adm'
+        
 
 License
 -------
@@ -35,4 +61,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Reza Chalak <rezachalak.int@gmail.com>

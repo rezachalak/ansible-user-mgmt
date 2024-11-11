@@ -1,0 +1,8 @@
+- name: Verify
+  host: all
+  gather_facts: false
+  tasks:
+    - name: assert that user has been created
+      ansible.builtin.assert:
+        name: 
+        platforms: all

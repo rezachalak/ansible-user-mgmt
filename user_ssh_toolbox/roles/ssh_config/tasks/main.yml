@@ -1,10 +1,10 @@
 ---
 - name: Ensure SSH configuration settings
-  ansible.builtin.replace:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: '{{ item.option }}'
-    replace: '{{ item.option }} {{ item.value }}'
-    # state: present
+    regexp: '^#?\s*{{ item.option }}'
+    line: '{{ item.option }} {{ item.value }}'
+    state: present
     # backup: yes
   loop:
     - { option: 'PasswordAuthentication', value: 'yes' }
