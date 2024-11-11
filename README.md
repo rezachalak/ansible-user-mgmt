@@ -20,7 +20,7 @@ Install prerequisits and run
     source molecule/bin/activate
 
     pip3 install -r requirements.txt  # Install project dependencies
-    pre-commit run --all-files
+
 
 2. Run molecule test on your local:
 
