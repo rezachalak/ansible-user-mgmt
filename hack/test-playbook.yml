@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Register end of 2024 expiry
+      command: date -d '2024-12-31T23:59:59' '+%s'
+      register: expiry_r
+
+    - name: Create local accounts
+      include_role:
+        name: rezachalak.user_ssh_toolbox.local_accounts
+      vars:
+        local_users:
+          - name: local_adm
+            shell: /bin/bash
+            userid: 38000087
+            expiry_date: -1  # No expiry intended
+            home: /home/local_adm
+            groups: ''
+            authorized_keys: '{{ playbook_dir }}/../user_ssh_toolbox/roles/local_accounts/files/authorized_keys_local_adm'
+          - name: local_log
+            shell: /bin/sh
+            userid: 38000088
+            expiry_date: "{{ expiry_r.stdout }}"  # Use the registered expiry date
+            home: /home/local_log
+            groups: ''
+            authorized_keys: '{{ playbook_dir }}/../user_ssh_toolbox/roles/local_accounts/files/authorized_keys_local_log'
+
+    - name: Check ssh configs
+      include_role:
+        name: rezachalak.user_ssh_toolbox.ssh_config
+      
