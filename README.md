@@ -26,6 +26,5 @@ Install prerequisits and run
 
 .. code-block:: bash
 
-    python manage.py makemigrations
-    python manage.py migrate
-    python manage.py runserver
+    cd user_ssh_toolbox/roles/${ROLE_NAME}
+    molecule test
