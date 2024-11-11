@@ -1,15 +1,14 @@
-# Collections
-These collections are free to use.
-I appreciate your improvements and bug reports.
+# Collections provided by me 
+
 
 ## How to test your changes/prepare your test environment
 -------------------
 
 Before submitting a pull request, make sure to test your changes:
 
-1. Run the ansible linter:
+1. Install prerequisits and run
 
-Install prerequisits and run
+In your local machine run:
 
     python3 -m pip install --upgrade pip
     pip3 install virtualenv
@@ -23,7 +22,7 @@ Install prerequisits and run
     pip3 install -r requirements.txt  # Install project dependencies
 
 
-2. Run molecule test on your local:
+3. Run molecule test on your local:
 
 Run molecule 
 
